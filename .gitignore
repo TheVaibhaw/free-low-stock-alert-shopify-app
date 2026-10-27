@@ -16,6 +16,7 @@ database.sqlite
 .env
 .env.*
 
+/package-lock.json
 
 # AI editor configuration
 .gemini/
