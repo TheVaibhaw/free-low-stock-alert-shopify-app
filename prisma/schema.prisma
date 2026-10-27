@@ -32,3 +32,23 @@ model Session {
   refreshToken        String?
   refreshTokenExpires DateTime?
 }
+
+
+model Settings {
+  id         Int      @id @default(autoincrement())
+  shop       String   @unique
+  threshold  Int      @default(5)
+  alertEmail String?
+  enabled    Boolean  @default(true)
+  updatedAt  DateTime @updatedAt
+}
+
+model AlertLog {
+  id              Int      @id @default(autoincrement())
+  shop            String
+  inventoryItemId String
+  quantity        Int
+  sentAt          DateTime @default(now())
+
+  @@index([shop, inventoryItemId])
+}
