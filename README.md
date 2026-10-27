@@ -158,7 +158,6 @@ export const action = async ({ request }) => {
 
   console.log(`LOW STOCK: ${productTitle} (SKU: ${sku}) - only ${available} left`);
 
-  // TODO: yahan email bhejna hai (Step 9)
 
   await db.alertLog.create({
     data: { shop, inventoryItemId, quantity: available },
@@ -207,48 +206,16 @@ LOW STOCK: The Minimal Snowboard - Default Title (SKU: ) - only 3 left
 
 ---
 
-### Step 9: Send the email (Resend) — TODO
-1. Create a free account at https://resend.com and generate an API key.
-2. Install the package:
-```bash
-npm install resend
-```
-3. Add to `.env`:
-```
-RESEND_API_KEY=re_xxxxxxxx
-ALERT_TO_EMAIL=your-resend-account-email@example.com
-```
-In test mode, Resend only delivers to the email you signed up with.
-
-4. At the top of `webhooks.inventory.update.jsx`:
-```jsx
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-```
-5. Replace the `// TODO: yahan email bhejna hai` line with:
-```jsx
-  await resend.emails.send({
-    from: "Low Stock Alert <onboarding@resend.dev>",
-    to: settings?.alertEmail || process.env.ALERT_TO_EMAIL,
-    subject: `Low stock: ${productTitle}`,
-    html: `<p><b>${productTitle}</b> (SKU: ${sku || "-"}) mein sirf <b>${available}</b> bache hain.</p>`,
-  });
-```
-6. Restart `shopify app dev` (so `.env` is loaded), lower another product's stock, and check your inbox and spam folder.
-
----
-
-### Step 10: Settings page — TODO
+### Step 9: Settings page — TODO
 `app/routes/app.settings.jsx`: a form for threshold, alert email and enabled. Read with `loader` and save with `action` (`db.settings.upsert`).
 
-### Step 11: Dashboard — TODO
+### Step 10: Dashboard — TODO
 `app/routes/app._index.jsx`: list low stock products (GraphQL `productVariants` with `inventoryQuantity`).
 
-### Step 12: Production — TODO
+### Step 11: Production — TODO
 - GDPR webhooks: `customers/data_request`, `customers/redact`, `shop/redact`
 - Use Postgres instead of SQLite
-- Host on Fly.io / Render / Railway and set env vars (`SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SCOPES`, `SHOPIFY_APP_URL`, `RESEND_API_KEY`)
+- Host on Fly.io / Render / Railway and set env vars (`SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SCOPES`, `SHOPIFY_APP_URL`)
 - `npm run deploy`, then submit for App Store review
 
 ---
