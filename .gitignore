@@ -17,7 +17,9 @@ database.sqlite
 .env.*
 
 
-.cursor
+# AI editor configuration
+.gemini/
+.cursor/
 
 
 /extensions/*/dist
